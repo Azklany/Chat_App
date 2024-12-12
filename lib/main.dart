@@ -1,8 +1,15 @@
+import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/views/home_view.dart';
 import 'package:chat_app/views/login_view.dart';
 import 'package:chat_app/views/register_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ChatApp());
 }
 
@@ -12,12 +19,14 @@ class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       routes: {
-        "registerView": (context) => const RegisterView(),
-        "loginrView": (context) => const LoginView(),
+        RegisterView.id: (context) =>  RegisterView(),
+        LoginView.id: (context) =>   LoginView(),
+        HomeView.id: (context) =>   HomeView(),
       },
-      initialRoute: "loginView",
+      initialRoute:  LoginView.id,
     );
   }
 }
